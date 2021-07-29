@@ -1,0 +1,100 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'com.github.hierynomus.license' version '0.16.1'
+}
+
+group 'net.royalsaga.minecraft'
+version '1.0.0'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+}
+
+dependencies {
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    testCompileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+
+    implementation 'me.mattstudios.utils:matt-framework:1.4.6' // Commands - https://mf.mattstudios.me/mf/mf-1
+    implementation 'org.spongepowered:configurate-yaml:4.1.1' // Config - https://github.com/SpongePowered/Configurate/
+}
+
+license {
+    header file('LICENSE')
+    encoding 'UTF-8'
+    mapping('java', 'JAVADOC_STYLE')
+    include('**/*.java')
+}
+
+shadowJar {
+    relocate('me.mattstudios.mf', 'net.royalsaga.minecraft.modules.libs.commands')
+}
+
+task sourceJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from javadoc
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+
+    if (options instanceof StandardJavadocDocletOptions) {
+        def opt = options as StandardJavadocDocletOptions
+
+        opt.links(
+                'https://docs.oracle.com/javase/8/docs/api/',
+                'https://javadoc.io/doc/org.jetbrains/annotations/20.1.0/',
+                'https://papermc.io/javadocs/paper/1.16/',
+                'https://javadoc.io/doc/me.mattstudios.utils/matt-framework/1.4.6/'
+        )
+
+        if (JavaVersion.current().isJava9Compatible()) {
+            opt.addBooleanOption('html5', true)
+            opt.addStringOption('-release', '9')
+        }
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+
+            artifact sourceJar
+            artifact javadocJar
+
+            pom {
+                url = 'https://github.com/RoyalSaga/modules'
+
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'http://opensource.org/licenses/mit-license.php'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/RoyalSaga/modules.git'
+                    developerConnection = 'scm:git:ssh://github.com/RoyalSaga/modules.git'
+                    url = 'https://github.com/RoyalSaga/modules'
+                }
+            }
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+}
