@@ -1,18 +1,18 @@
 /**
  * MIT License
- * <p>
+ *
  * Copyright (c) 2021 RoyalSaga
- * <p>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * <p>
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * <p>
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,23 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.royalsaga.minecraft.modules;
+package net.royalsaga.minecraft.modules.placeholders;
 
-import me.mattstudios.mf.base.CommandBase;
+import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-/**
- * Class used to handle commands
- * @param <M> module
- * @see CommandModule#getCommands()
- * @since 1.0.0
- * @author GabyTM
- */
-public abstract class ModuleCommand<M extends Module<?>> extends CommandBase {
+public interface PlaceholderProvider {
 
-    protected final M module;
-
-    public ModuleCommand(M module) {
-        this.module = module;
-    }
+    @Nullable
+    String replace(@Nullable final OfflinePlayer player, @NotNull String params);
 
 }

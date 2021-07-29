@@ -21,21 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.royalsaga.minecraft.modules.exceptions;
+package net.royalsaga.minecraft.modules.modules;
 
-import net.royalsaga.minecraft.modules.modules.Module;
-import org.bukkit.plugin.java.JavaPlugin;
+import me.mattstudios.mf.base.CommandBase;
 
 /**
- * Class that represents the exceptions thrown in this library
- * @see Module#Module(JavaPlugin)
+ * Class used to handle commands
+ * @param <M> module
+ * @see CommandModule#getCommands()
  * @since 1.0.0
  * @author GabyTM
  */
-public class ModuleException extends RuntimeException {
+public abstract class ModuleCommand<M extends Module<?>> extends CommandBase {
 
-    public ModuleException(String message) {
-        super(message);
+    protected final M module;
+
+    public ModuleCommand(M module) {
+        this.module = module;
     }
 
 }

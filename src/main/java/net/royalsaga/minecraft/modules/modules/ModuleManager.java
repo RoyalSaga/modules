@@ -21,10 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.royalsaga.minecraft.modules;
+package net.royalsaga.minecraft.modules.modules;
 
 import me.mattstudios.mf.base.CommandManager;
+import net.royalsaga.minecraft.modules.placeholders.PlaceholderProvider;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,6 +37,7 @@ import java.util.Map;
 public class ModuleManager<P extends JavaPlugin> {
 
     private final Map<String, Module<P>> registeredModules = new HashMap<>();
+    private final Map<String, PlaceholderProvider> placeholderProviders = new HashMap<>();
 
     private final P plugin;
     private final CommandManager commandManager;
@@ -58,12 +61,33 @@ public class ModuleManager<P extends JavaPlugin> {
            commandModule.getCommands().forEach(commandManager::register);
         }
 
+        if (module instanceof PlaceholderProvider) {
+            placeholderProviders.put(module.id, (PlaceholderProvider) module);
+        }
+
         module.info("Registered!");
     }
 
+    /**
+     * Get a module by its {@link Module#id id}
+     * @param id id
+     * @return module if found, otherwise null
+     */
     @Nullable
     public Module<P> getModule(@NotNull final String id) {
         return registeredModules.get(id);
+    }
+
+    @Nullable
+    public String replacePlaceholders(@Nullable final OfflinePlayer player, @NotNull final String params) {
+        final String[] split = params.split("_", 2);
+        final PlaceholderProvider provider = placeholderProviders.get(split[0]);
+
+        if (provider == null) {
+            return null;
+        }
+
+        return provider.replace(player, (split.length == 1) ? "" : split[1]);
     }
 
 }
