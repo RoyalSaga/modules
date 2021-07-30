@@ -79,7 +79,7 @@ public class ModuleManager<P extends JavaPlugin> {
     }
 
     @Nullable
-    public String replacePlaceholders(@Nullable final OfflinePlayer player, @NotNull final String params) {
+    public String parsePlaceholder(@Nullable final OfflinePlayer player, @NotNull final String params) {
         final String[] split = params.split("_", 2);
         final PlaceholderProvider provider = placeholderProviders.get(split[0]);
 
@@ -87,7 +87,7 @@ public class ModuleManager<P extends JavaPlugin> {
             return null;
         }
 
-        return provider.replace(player, (split.length == 1) ? "" : split[1]);
+        return provider.parse(player, (split.length == 1) ? "" : split[1]);
     }
 
 }

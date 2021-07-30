@@ -30,6 +30,6 @@ import org.jetbrains.annotations.Nullable;
 public interface PlaceholderProvider {
 
     @Nullable
-    String replace(@Nullable final OfflinePlayer player, @NotNull String params);
+    String parse(@Nullable final OfflinePlayer offlinePlayer, @NotNull String params);
 
 }
