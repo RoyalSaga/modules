@@ -24,6 +24,7 @@
 package net.royalsaga.minecraft.modules.modules;
 
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class used to handle {@link org.bukkit.event.Event event} listeners
@@ -36,7 +37,7 @@ public abstract class ModuleListener<M extends Module<?>> implements Listener {
 
     protected final M module;
 
-    public ModuleListener(M module) {
+    public ModuleListener(@NotNull M module) {
         this.module = module;
     }
 

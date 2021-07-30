@@ -66,6 +66,7 @@ public class ModuleManager<P extends JavaPlugin> {
         }
 
         module.info("Registered!");
+        module.onRegister();
     }
 
     /**

@@ -62,7 +62,7 @@ public class Config {
         this.module = module;
         this.path = module.getPlugin().getDataFolder().toPath().resolve(pathFromDataFolder);
 
-        if (isResource && !Files.exists(path)) {
+        if (isResource && !Files.exists(this.path)) {
             try {
                 module.getPlugin().saveResource(pathFromDataFolder.toString(), false);
             } catch (IllegalArgumentException e) {
@@ -73,7 +73,7 @@ public class Config {
         this.loader = YamlConfigurationLoader.builder()
                 .indent(2)
                 .nodeStyle(NodeStyle.BLOCK)
-                .path(path)
+                .path(this.path)
                 .build();
 
         load();

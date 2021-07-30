@@ -56,10 +56,10 @@ public class Module<P extends JavaPlugin> {
             throw new ModuleException("Module class " + getClass().getCanonicalName() + " needs to be annotated with @ModuleInfo");
         }
 
-        this.config = new Config(this);
-
         final ModuleInfo info = getClass().getAnnotation(ModuleInfo.class);
         this.id = info.id();
+
+        this.config = new Config(this);
     }
 
     /**
@@ -88,6 +88,11 @@ public class Module<P extends JavaPlugin> {
         return Collections.emptyList();
     }
 
+    /**
+     * Method called when the module is registered
+     */
+    public void onRegister() { }
+    
     public void onReload() { }
 
     /**

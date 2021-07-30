@@ -24,6 +24,7 @@
 package net.royalsaga.minecraft.modules.modules;
 
 import me.mattstudios.mf.base.CommandBase;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class used to handle commands
@@ -36,7 +37,7 @@ public abstract class ModuleCommand<M extends Module<?>> extends CommandBase {
 
     protected final M module;
 
-    public ModuleCommand(M module) {
+    public ModuleCommand(@NotNull M module) {
         this.module = module;
     }
 
