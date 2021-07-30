@@ -26,7 +26,7 @@ package net.royalsaga.minecraft.modules.modules;
 import org.bukkit.event.Listener;
 
 /**
- * Class used to handle {@link org.bukkit.event.Event} listeners
+ * Class used to handle {@link org.bukkit.event.Event event} listeners
  * @param <M> module
  * @see Module#getListeners()
  * @since 1.0.0

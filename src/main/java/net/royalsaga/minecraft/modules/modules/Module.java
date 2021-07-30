@@ -84,7 +84,7 @@ public class Module<P extends JavaPlugin> {
         return id;
     }
 
-    public List<? extends ModuleListener<Module<?>>> getListeners() {
+    public List<? extends ModuleListener<? extends Module<P>>> getListeners() {
         return Collections.emptyList();
     }
 

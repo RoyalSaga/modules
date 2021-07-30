@@ -45,7 +45,7 @@ public interface CommandModule {
      * @see ModuleManager#register(Module)
      * @since 1.0.0
      */
-    List<? extends ModuleCommand<Module<?>>> getCommands();
+    List<? extends ModuleCommand<? extends Module<?>>> getCommands();
 
     /**
      * Get the commands completions of a module
