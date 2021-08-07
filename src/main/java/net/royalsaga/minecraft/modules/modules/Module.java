@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2021 RoyalSaga
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.logging.Level;
 
 /**
+ * @param <P> the plugin
  * @author GabyTM
  * @since 1.0.0
- * @param <P> the plugin
  */
 public class Module<P extends JavaPlugin> {
 
@@ -45,11 +45,12 @@ public class Module<P extends JavaPlugin> {
     protected final Config config;
 
     /**
-     *
-     * @param plugin plugin
+     * @param plugin           plugin
+     * @param isConfigResource whether the config.yml file is found on plugin's folder
+     *                         ({@code modules/<module id>/config.yml})
      * @throws ModuleException if the class is not annotated with {@link ModuleInfo}
      */
-    public Module(@NotNull P plugin) throws ModuleException {
+    public Module(@NotNull P plugin, boolean isConfigResource) throws ModuleException {
         this.plugin = plugin;
 
         if (!getClass().isAnnotationPresent(ModuleInfo.class)) {
@@ -59,12 +60,13 @@ public class Module<P extends JavaPlugin> {
         final ModuleInfo info = getClass().getAnnotation(ModuleInfo.class);
         this.id = info.id();
 
-        this.config = new Config(this);
+        this.config = new Config(this, isConfigResource);
     }
 
     /**
      * Log a message through {@link Module#plugin}'s logger with the module {@link Module#id} as prefix
-     * @param level level
+     *
+     * @param level   level
      * @param message message
      * @since 1.0.0
      */
@@ -91,13 +93,16 @@ public class Module<P extends JavaPlugin> {
     /**
      * Method called when the module is registered
      */
-    public void onRegister() { }
-    
-    public void onReload() { }
+    public void onRegister() {
+    }
+
+    public void onReload() {
+    }
 
     /**
      * Log an error with {@link Level#SEVERE SEVERE} level through {@link #plugin}'s logger with module's {@link #id} as prefix
-     * @param message message
+     *
+     * @param message   message
      * @param throwable error to log
      * @since 1.0.0
      */
@@ -107,6 +112,7 @@ public class Module<P extends JavaPlugin> {
 
     /**
      * Log an info message with {@link Level#INFO INFO} level
+     *
      * @param message message
      * @see #log(Level, String)
      * @since 1.0.0
@@ -117,6 +123,7 @@ public class Module<P extends JavaPlugin> {
 
     /**
      * Log a warning message with {@link Level#WARNING WARNING} level
+     *
      * @param message message
      * @see #log(Level, String)
      * @since 1.0.0

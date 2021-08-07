@@ -30,6 +30,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.yaml.NodeStyle;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -62,11 +63,19 @@ public class Config {
         this.module = module;
         this.path = module.getPlugin().getDataFolder().toPath().resolve(pathFromDataFolder);
 
-        if (isResource && !Files.exists(this.path)) {
-            try {
-                module.getPlugin().saveResource(pathFromDataFolder.toString(), false);
-            } catch (IllegalArgumentException e) {
-                module.error("Could not save " + this.path, e);
+        if (!Files.exists(this.path)) {
+            if (isResource) {
+                try {
+                    module.getPlugin().saveResource(pathFromDataFolder.toString(), false);
+                } catch (IllegalArgumentException e) {
+                    module.error("Could not save " + this.path, e);
+                }
+            } else {
+                try {
+                    Files.createFile(this.path);
+                } catch (IOException e) {
+                    module.error("Could not create " + this.path, e);
+                }
             }
         }
 
@@ -85,8 +94,8 @@ public class Config {
      * @param module module instance
      * @since 1.0.0
      */
-    public Config(Module<?> module) {
-        this(module, Paths.get("config.yml"), true);
+    public Config(Module<?> module, boolean isResource) {
+        this(module, Paths.get("config.yml"), isResource);
     }
 
     /**

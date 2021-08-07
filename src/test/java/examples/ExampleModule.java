@@ -45,7 +45,7 @@ public class ExampleModule extends Module<ExamplePlugin> implements CommandModul
      * @throws ModuleException if the class is not annotated with {@link ModuleInfo}
      */
     public ExampleModule(@NotNull ExamplePlugin plugin) throws ModuleException {
-        super(plugin);
+        super(plugin, true);
     }
 
     @Override

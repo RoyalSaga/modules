@@ -28,7 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Class that represents the exceptions thrown in this library
- * @see Module#Module(JavaPlugin)
+ * @see Module#Module(JavaPlugin, boolean)
  * @since 1.0.0
  * @author GabyTM
  */
